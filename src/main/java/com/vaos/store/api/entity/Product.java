@@ -1,12 +1,12 @@
 package com.vaos.store.api.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
 
 @Entity
 @Data
@@ -14,13 +14,25 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int productId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long productId;
+    @NotBlank(message = "Please Provide Product Name")
+    private String productName;
 
-    Double productPrice;
-
-    Float productRating;
-
+    @NotNull
+    @DecimalMin("0.01")
+    @Digits(integer = 5, fraction = 2)
+    private BigDecimal productPrice;
+    @NotBlank(message = "Please Provide Product Manufacturing Date")
     String productManufacturingDate;
+
+    @Min(0)
+    @Max(1)
+    @Column( columnDefinition = "int default 0")
+    int productIsAvailable;
+
+    @Min(0)
+    @Max(5)
+    private int productRating = 1;
 
 }

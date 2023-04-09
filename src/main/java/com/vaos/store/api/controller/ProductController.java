@@ -1,14 +1,43 @@
 package com.vaos.store.api.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.vaos.store.api.entity.Product;
+import com.vaos.store.api.error.ProductNotFoundException;
+import com.vaos.store.api.service.ProductService;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class ProductController {
 
-    @GetMapping("/")
-    public String Testing() {
-        return "Hello World";
+    @Autowired
+    ProductService productService;
+
+    @PostMapping("/api/v1/product")
+    public Product saveProduct(@Valid @RequestBody Product product) {
+        return productService.saveProduct(product);
     }
 
+    @GetMapping("/api/v1/product")
+    public List<Product> getAllProducts(){
+        return productService.getAllProducts();
+    }
+
+    @GetMapping("/api/v1/product/{id}")
+    public Product getProductById(@PathVariable("id") Long productId) throws ProductNotFoundException {
+        return productService.getProductById(productId);
+    }
+
+    @DeleteMapping("/api/v1/product/{id}")
+    public String deleteProductById(@PathVariable("id") Long productId){
+         productService.deleteProductById(productId);
+         return "Product has been deleted!";
+    }
+
+    @PutMapping("/api/v1/product/{id}")
+    public Product updateProduct(@PathVariable("id") Long productId, @RequestBody Product product){
+        return productService.updateProduct(productId, product);
+    }
 }
