@@ -37,7 +37,7 @@ public class ProductController {
     }
 
     @PutMapping("/api/v1/product/{id}")
-    public Product updateProduct(@PathVariable("id") Long productId, @RequestBody Product product){
+    public Product updateProduct(@PathVariable("id") Long productId, @RequestBody Product product) throws ProductNotFoundException {
         return productService.updateProduct(productId, product);
     }
 }

@@ -48,22 +48,18 @@ public class ProductServiceImpl implements ProductService {
                 !"".equalsIgnoreCase(product.getProductName())) {
             productDataBase.setProductName(product.getProductName());
         }
-        if (Objects.nonNull(product.getProductPrice())
-                && product.getProductPrice() > 0) {
+        if (Objects.nonNull(product.getProductPrice())) {
             productDataBase.setProductPrice(product.getProductPrice());
         }
         if (Objects.nonNull(product.getProductManufacturingDate())
                 && !"".equalsIgnoreCase(product.getProductManufacturingDate())) {
             productDataBase.setProductManufacturingDate(product.getProductManufacturingDate());
         }
-        if (Objects.nonNull(product.getProductIsAvailable())
-                && (product.getProductIsAvailable() == 0
-                ||
-                product.getProductIsAvailable() == 1)) {
+        if (product.getProductIsAvailable() == 0
+                || product.getProductIsAvailable() == 1) {
             productDataBase.setProductIsAvailable(product.getProductIsAvailable());
         }
-        if (Objects.nonNull(product.getProductRating())
-                && product.getProductRating() >= 0
+        if (product.getProductRating() >= 0
                 && product.getProductRating() <= 5) {
             productDataBase.setProductRating(product.getProductRating());
         }
