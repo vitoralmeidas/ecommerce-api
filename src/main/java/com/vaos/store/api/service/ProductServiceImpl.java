@@ -6,6 +6,7 @@ import com.vaos.store.api.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -48,7 +49,8 @@ public class ProductServiceImpl implements ProductService {
                 !"".equalsIgnoreCase(product.getProductName())) {
             productDataBase.setProductName(product.getProductName());
         }
-        if (Objects.nonNull(product.getProductPrice())) {
+
+        if (Objects.nonNull(product.getProductPrice()) && (product.getProductPrice().doubleValue() > 0.01)) {
             productDataBase.setProductPrice(product.getProductPrice());
         }
         if (Objects.nonNull(product.getProductManufacturingDate())

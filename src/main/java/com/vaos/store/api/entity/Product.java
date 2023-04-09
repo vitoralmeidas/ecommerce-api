@@ -20,8 +20,6 @@ public class Product {
     private String productName;
 
     @NotNull
-    @DecimalMin("0.01")
-    @Digits(integer = 5, fraction = 2)
     private BigDecimal productPrice;
     @NotBlank(message = "Please Provide Product Manufacturing Date")
     String productManufacturingDate;

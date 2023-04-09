@@ -16,7 +16,7 @@ public class ProductController {
     ProductService productService;
 
     @PostMapping("/api/v1/product")
-    public Product saveProduct(@Valid @RequestBody Product product) {
+    public Product saveProduct( @RequestBody Product product) {
         return productService.saveProduct(product);
     }
 
