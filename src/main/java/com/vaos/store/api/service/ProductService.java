@@ -17,5 +17,5 @@ public interface ProductService {
 
     public Product updateProduct(Long productId, Product product) throws ProductNotFoundException;
 
-    public Product getProductByName(String productName);
+    public List<Product> getProductByName(String productName);
 }

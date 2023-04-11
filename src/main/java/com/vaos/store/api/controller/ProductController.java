@@ -25,8 +25,8 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
-    @GetMapping("/api/v1/product/{name}")
-    public Product getProductByName(@PathVariable("name") String productName){
+    @GetMapping("/api/v1/product/name/{name}")
+    public List<Product> getProductByName(@PathVariable("name") String productName){
         return productService.getProductByName(productName);
     }
 
