@@ -25,6 +25,11 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
+    @GetMapping("/api/v1/product/{name}")
+    public Product getProductByName(@PathVariable("name") String productName){
+        return productService.getProductByName(productName);
+    }
+
     @GetMapping("/api/v1/product/{id}")
     public Product getProductById(@PathVariable("id") Long productId) throws ProductNotFoundException {
         return productService.getProductById(productId);

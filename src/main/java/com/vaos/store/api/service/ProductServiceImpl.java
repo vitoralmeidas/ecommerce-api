@@ -65,6 +65,17 @@ public class ProductServiceImpl implements ProductService {
                 && product.getProductRating() <= 5) {
             productDataBase.setProductRating(product.getProductRating());
         }
+        if(product.getQuantity() >= 0) {
+            productDataBase.setQuantity(product.getQuantity());
+        }
+        if(!"".equalsIgnoreCase(product.getCompany())){
+            productDataBase.setCompany(product.getCompany());
+        }
         return productRepository.save(productDataBase);
+    }
+
+    @Override
+    public Product getProductByName(String productName) {
+        return productRepository.findByProductNameIgnoreCase(productName);
     }
 }

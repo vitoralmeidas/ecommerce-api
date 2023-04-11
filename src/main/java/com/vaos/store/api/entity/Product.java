@@ -20,6 +20,13 @@ public class Product {
     private String productName;
 
     @NotNull
+    @Max(50)
+    private int quantity;
+
+    @NotBlank
+    private String company;
+
+    @NotNull
     private BigDecimal productPrice;
     @NotBlank(message = "Please Provide Product Manufacturing Date")
     String productManufacturingDate;

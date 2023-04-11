@@ -16,4 +16,6 @@ public interface ProductService {
     public void deleteProductById(Long productId);
 
     public Product updateProduct(Long productId, Product product) throws ProductNotFoundException;
+
+    public Product getProductByName(String productName);
 }
