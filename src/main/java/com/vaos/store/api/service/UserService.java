@@ -1,6 +1,8 @@
 package com.vaos.store.api.service;
 
-import org.springframework.stereotype.Service;
+import com.vaos.store.api.Model.UserModel;
+import com.vaos.store.api.entity.User;
 
 public interface UserService {
+    public User registerUser(UserModel userModel);
 }
