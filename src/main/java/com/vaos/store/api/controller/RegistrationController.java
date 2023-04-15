@@ -2,8 +2,9 @@ package com.vaos.store.api.controller;
 
 import com.vaos.store.api.Model.UserModel;
 import com.vaos.store.api.entity.User;
-import com.vaos.store.api.event.RegistrationComplentEvent;
+import com.vaos.store.api.event.RegistrationCompleteEvent;
 import com.vaos.store.api.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,9 +21,21 @@ public class RegistrationController {
     private ApplicationEventPublisher publisher;
 
     @PostMapping("/api/v1/register")
-    public String registerUser(@RequestBody UserModel userModel) {
+    public String registerUser(@RequestBody UserModel userModel, final HttpServletRequest request) {
         User user = userService.registerUser(userModel);
-        publisher.publishEvent(new RegistrationComplentEvent(user, "url"));
+        publisher.publishEvent(new RegistrationCompleteEvent(
+                user,
+                applicationURL(request)
+        ));
         return "Success";
     }
+
+    private String applicationURL(HttpServletRequest request) {
+        return "https://" +
+                request.getServerName() +
+                ":" +
+                request.getServerPort()+
+                request.getContextPath();
+    }
+
 }

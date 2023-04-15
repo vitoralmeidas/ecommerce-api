@@ -1,6 +1,5 @@
 package com.vaos.store.api.Model;
 
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
