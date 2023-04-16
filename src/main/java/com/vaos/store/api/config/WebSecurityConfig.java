@@ -17,7 +17,8 @@ public class WebSecurityConfig {
             "/api/v1/register",
             "/",
             "/api/v1/product/name/{name}",
-            "/api/v1/product/{id}"
+            "/api/v1/product/{id}",
+            "/verifyRegistration"
     };
 
     @Bean
