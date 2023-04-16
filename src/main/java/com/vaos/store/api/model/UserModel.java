@@ -1,4 +1,4 @@
-package com.vaos.store.api.Model;
+package com.vaos.store.api.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

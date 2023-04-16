@@ -1,6 +1,6 @@
 package com.vaos.store.api.service;
 
-import com.vaos.store.api.Model.UserModel;
+import com.vaos.store.api.model.UserModel;
 import com.vaos.store.api.entity.User;
 import com.vaos.store.api.entity.VerificationToken;
 import com.vaos.store.api.repository.UserRepository;
@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -66,5 +67,14 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
         return "valid";
+    }
+
+    @Override
+    public VerificationToken generateNewVerificationToken(String oldToken) {
+        VerificationToken verificationToken = verificationTokenRepository.findByToken(oldToken);
+        verificationToken.setToken(UUID.randomUUID().toString());
+        verificationTokenRepository.save(verificationToken);
+
+        return verificationToken;
     }
 }

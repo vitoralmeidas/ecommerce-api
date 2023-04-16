@@ -1,15 +1,17 @@
 package com.vaos.store.api;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 
 public class Tests {
 
     public static void main(String[] args) {
-        Calendar calendar  = Calendar.getInstance();
-        calendar.setTimeInMillis(new Date().getTime());
-        System.out.println(calendar.getTime());
-        calendar.add(Calendar.MINUTE, 10);
-        System.out.println(new Date(calendar.getTime().getTime()));
+        LocalDate start = LocalDate.of(2023, 04, 15);
+        LocalDate end = LocalDate.of(2023, 06,27);
+
+        Long daysBetween = ChronoUnit.DAYS.between(start, end);
+        System.out.println("Quantos dias: " + daysBetween);
     }
 }
