@@ -31,10 +31,11 @@ public class RegistrationController {
     }
 
     private String applicationURL(HttpServletRequest request) {
-        return "https://" +
+        return "http://" +
                 request.getServerName() +
                 ":" +
                 request.getServerPort()+
+                "/" +
                 request.getContextPath();
     }
 

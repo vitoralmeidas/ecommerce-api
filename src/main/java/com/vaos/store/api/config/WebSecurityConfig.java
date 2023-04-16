@@ -14,7 +14,10 @@ public class WebSecurityConfig {
 
     private static final String[] WHITE_LIST_URLS = {
             "/api/v1/product",
-            "/api/v1/product/register"
+            "/api/v1/register",
+            "/",
+            "/api/v1/product/name/{name}",
+            "/api/v1/product/{id}"
     };
 
     @Bean
