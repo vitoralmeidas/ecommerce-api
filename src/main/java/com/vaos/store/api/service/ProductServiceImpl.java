@@ -31,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
     public Product getProductById(Long productId) throws ProductNotFoundException {
         Optional<Product> product = productRepository.findById(productId);
         if (!product.isPresent()) {
-            throw new ProductNotFoundException("Department Not Available");
+            throw new ProductNotFoundException("Product Not Available");
         }
         return product.get();
     }
