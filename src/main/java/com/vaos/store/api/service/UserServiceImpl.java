@@ -1,8 +1,10 @@
 package com.vaos.store.api.service;
 
+import com.vaos.store.api.entity.PasswordResetToken;
 import com.vaos.store.api.model.UserModel;
 import com.vaos.store.api.entity.User;
 import com.vaos.store.api.entity.VerificationToken;
+import com.vaos.store.api.repository.PasswordResetRepository;
 import com.vaos.store.api.repository.UserRepository;
 import com.vaos.store.api.repository.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Autowired
     private VerificationTokenRepository verificationTokenRepository;
+    @Autowired
+    private PasswordResetRepository passwordResetTokenRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -76,5 +80,41 @@ public class UserServiceImpl implements UserService {
         verificationTokenRepository.save(verificationToken);
 
         return verificationToken;
+    }
+
+    @Override
+    public User findUserByEmail(String email) {
+        return verificationTokenRepository.findByEmail(email);
+    }
+
+    @Override
+    public void createPasswordRestTokenForUser(User user, String token) {
+        PasswordResetToken passwordResetToken
+                = new PasswordResetToken(user, token);
+        passwordResetTokenRepository.save(passwordResetToken);
+    }
+
+    //refactoring....
+    @Override
+    public String validatePasswordRestToken(String token) {
+        PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(token);
+
+        if(passwordResetToken == null){
+            return "Invalid Token";
+        }
+
+        Calendar calendar = Calendar.getInstance();
+        if(passwordResetToken.getExpirationTime().getTime() -
+                calendar.getTime().getTime() <= 0){
+            passwordResetTokenRepository.delete(passwordResetToken);
+            return "expired";
+        }
+
+        User user = passwordResetToken.getUser();
+
+        user.setEnabled(true);
+        userRepository.save(user);
+
+        return "Valid";
     }
 }

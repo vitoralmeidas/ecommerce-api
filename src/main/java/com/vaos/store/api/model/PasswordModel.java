@@ -1,0 +1,10 @@
+package com.vaos.store.api.model;
+
+import lombok.Data;
+
+@Data
+public class PasswordModel {
+
+    private String email;
+
+}
