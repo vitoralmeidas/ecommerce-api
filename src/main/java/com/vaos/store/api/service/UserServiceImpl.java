@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -84,7 +85,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUserByEmail(String email) {
-        return verificationTokenRepository.findByEmail(email);
+        return userRepository.findByEmail(email);
     }
 
     @Override
@@ -96,25 +97,31 @@ public class UserServiceImpl implements UserService {
 
     //refactoring....
     @Override
-    public String validatePasswordRestToken(String token) {
+    public String validatePasswordResetToken(String token) {
         PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(token);
 
-        if(passwordResetToken == null){
+        if (passwordResetToken == null) {
             return "Invalid Token";
         }
 
         Calendar calendar = Calendar.getInstance();
-        if(passwordResetToken.getExpirationTime().getTime() -
-                calendar.getTime().getTime() <= 0){
+        if (passwordResetToken.getExpirationTime().getTime() -
+                calendar.getTime().getTime() <= 0) {
             passwordResetTokenRepository.delete(passwordResetToken);
             return "expired";
         }
 
-        User user = passwordResetToken.getUser();
-
-        user.setEnabled(true);
-        userRepository.save(user);
-
         return "Valid";
+    }
+
+    @Override
+    public Optional<User> getUserByPasswordResetToken(String token) {
+        return Optional.ofNullable(passwordResetTokenRepository.findByToken(token).getUser());
+    }
+
+    @Override
+    public void changePassword(User user, String newPassword) {
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
     }
 }

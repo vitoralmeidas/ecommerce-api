@@ -19,7 +19,9 @@ public class WebSecurityConfig {
             "/api/v1/product/{id}",
             "/api/v1/product/name/{name}",
             "/verifyRegistration*",
-            "/resendVerifyToken*"
+            "/resendVerifyToken*",
+            "/resetPassword*",
+            "/savePassword*"
     };
 
 //    * -> it will handle everything

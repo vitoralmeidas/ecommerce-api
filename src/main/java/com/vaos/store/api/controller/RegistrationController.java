@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -76,18 +77,24 @@ public class RegistrationController {
     @PostMapping("/savePassword")
     public String savePassword(@RequestParam("token") String token,
                                @RequestBody PasswordModel passwordModel) {
-        String result = userService.validatePasswordRestToken(token);
-        if (result.equalsIgnoreCase("valid")) {
-            return "PASSWORD HAS SAVED.";
+        String result = userService.validatePasswordResetToken(token);
+        if (!result.equalsIgnoreCase("valid")) {
+            return "Invalid Token";
         }
 
-        return result;
+        Optional<User> user = userService.getUserByPasswordResetToken(token);
+        if(user.isPresent()){
+            userService.changePassword(user.get(), passwordModel.getNewPassword());
+            return "Password Reset Successfully";
+        }else {
+            return "Invalid Token";
+        }
     }
 
     private String passwordResetTokenMail(User user, String applicationURL, String token) {
         String url =
                 applicationURL
-                        + "/savePassword?token="
+                        + "savePassword?token="
                         + token;
 
         log.info("Click the link to Reset the Password!: {} ", url);
