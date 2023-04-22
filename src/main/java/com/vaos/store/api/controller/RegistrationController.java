@@ -72,6 +72,7 @@ public class RegistrationController {
         }
 
         return url;
+
     }
 
     @PostMapping("/savePassword")
@@ -89,6 +90,20 @@ public class RegistrationController {
         }else {
             return "Invalid Token";
         }
+    }
+
+
+    @PostMapping("/changePassword")
+    public String changePassword(@RequestBody PasswordModel passwordModel){
+        User user = userService.findUserByEmail(passwordModel.getEmail());
+        if(!userService.checkIfValidOldPassword(user, passwordModel.getOldPassword())){
+            return "Invalid Old Password";
+        }
+
+        // save new password
+        userService.changePassword(user, passwordModel.getNewPassword());
+        return "Password Changed Successfully";
+
     }
 
     private String passwordResetTokenMail(User user, String applicationURL, String token) {
