@@ -22,20 +22,21 @@ import java.util.List;
 @Transactional
 public class CustomUserDetailsService implements UserDetailsService {
 
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder(11);
+    }
+
     @Autowired
     private UserRepository userRepository;
-
-    @Bean
-    public PasswordEncoder passwordEncoder () {
-        return new BCryptPasswordEncoder(11);
-    };
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
         if (user == null) {
-            throw new UsernameNotFoundException("No user found!");
+            throw new UsernameNotFoundException("User not found.");
         }
+
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
                 user.getPassword(),
@@ -43,7 +44,8 @@ public class CustomUserDetailsService implements UserDetailsService {
                 true,
                 true,
                 true,
-                getAuthorities(List.of(user.getRole())));
+                getAuthorities(List.of(user.getRole()))
+        );
     }
 
     private Collection<? extends GrantedAuthority> getAuthorities(List<String> roles) {
@@ -51,7 +53,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         for (String role : roles) {
             authorities.add(new SimpleGrantedAuthority(role));
         }
+
         return authorities;
     }
-
 }

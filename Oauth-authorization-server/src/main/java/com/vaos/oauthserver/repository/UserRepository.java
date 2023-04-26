@@ -1,6 +1,5 @@
 package com.vaos.oauthserver.repository;
 
-
 import com.vaos.oauthserver.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
