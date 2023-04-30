@@ -1,5 +1,7 @@
 package com.vaos.oauthserver.config;
 
+
+import com.vaos.oauthserver.service.CustomAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.Customizer;
@@ -11,6 +13,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class DefaultSecurityConfig {
 
+    @Autowired
+    private CustomAuthenticationProvider customAuthenticationProvider;
+
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests(authorizeRequests ->
@@ -20,4 +25,9 @@ public class DefaultSecurityConfig {
         return http.build();
     }
 
+    @Autowired
+    public void bindAuthenticationProvider(AuthenticationManagerBuilder authenticationManagerBuilder) {
+        authenticationManagerBuilder
+                .authenticationProvider(customAuthenticationProvider);
+    }
 }

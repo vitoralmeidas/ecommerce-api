@@ -1,6 +1,7 @@
 package com.vaos.oauthserver.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,7 +31,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     private Authentication checkPassword(UserDetails user, String rawPassword) {
         if (passwordEncoder.matches(rawPassword, user.getPassword())) {
-            return new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), user.getAuthorities());
+            return new UsernamePasswordAuthenticationToken(
+                    user.getUsername(),
+                    user.getPassword(),
+                    user.getAuthorities());
         } else {
             throw new BadCredentialsException("Bad Credentials");
         }
