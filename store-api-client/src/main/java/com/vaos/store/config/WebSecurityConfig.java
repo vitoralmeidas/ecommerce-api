@@ -43,12 +43,7 @@ public class WebSecurityConfig {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers(WHITE_LIST_URLS).permitAll()
-                .requestMatchers("/api/**").authenticated()
-                .and()
-                .oauth2Login(oauth2login ->
-                        oauth2login.loginPage("/oauth2/authorization/api-client-oidc"))
-                .oauth2Client(Customizer.withDefaults());
+                .requestMatchers(WHITE_LIST_URLS).permitAll();
 
         return http.build();
     }
